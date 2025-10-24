@@ -1,0 +1,130 @@
+.book-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-neon);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+  
+  .book-cover-wrapper {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1347, #2d1b69);
+  }
+  
+  .book-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .book-card:hover .book-cover-img {
+    transform: scale(1.1);
+  }
+  
+  .book-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #00d4ff 0%, #b44aff 100%);
+  }
+  
+  .book-icon {
+    font-size: 100px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .book-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .book-card:hover .book-overlay {
+    opacity: 1;
+  }
+  
+  .book-year {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+  }
+  
+  .book-content {
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+  
+  .book-card:hover .book-title {
+    color: var(--neon-blue);
+  }
+  
+  .book-author {
+    color: var(--neon-purple);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+  }
+  
+  .author-icon {
+    font-size: 18px;
+  }
+  
+  .book-description {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+  
+  .book-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .book-cover-wrapper {
+      height: 280px;
+    }
+    
+    .book-content {
+      padding: 20px;
+    }
+  }
