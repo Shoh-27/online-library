@@ -10,20 +10,21 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(BookSeeder::class);
         // Create admin user
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@library.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
-
-        // Create regular user
-        User::create([
-            'name' => 'John Doe',
-            'email' => 'user@library.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-        ]);
+//        User::create([
+//            'name' => 'Admin User',
+//            'email' => 'admin@library.com',
+//            'password' => Hash::make('password'),
+//            'role' => 'admin',
+//        ]);
+//
+//        // Create regular user
+//        User::create([
+//            'name' => 'John Doe',
+//            'email' => 'user@library.com',
+//            'password' => Hash::make('password'),
+//            'role' => 'user',
+//        ]);
     }
 }
