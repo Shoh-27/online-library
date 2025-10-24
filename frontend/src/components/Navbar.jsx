@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react';
+import './Navbar.css';
 
 const Navbar = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -13,97 +14,71 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="glass sticky top-0 z-50 border-b border-white/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+    <nav className="navbar">
+      <div className="container">
+        <div className="navbar-content">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="text-4xl transform group-hover:scale-110 transition-transform duration-300 float">
-              📚
-            </div>
-            <span className="text-2xl font-bold text-white hidden sm:block">
-              Online Library
-            </span>
+          <Link to="/" className="navbar-logo">
+            <span className="logo-icon float">📚</span>
+            <span className="logo-text hide-mobile">Online Library</span>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="navbar-menu hide-mobile">
             {user ? (
-              <>
-                <div className="glass-dark px-4 py-2 rounded-full">
-                  <span className="text-white font-medium">
-                    👋 {user.name}
-                  </span>
+              <div className="flex items-center gap-3">
+                <div className="user-badge glass">
+                  <span>👋</span>
+                  <span>{user.name}</span>
                 </div>
                 
                 {isAdmin() && (
-                  <Link
-                    to="/admin"
-                    className="btn-gradient text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg transition-all duration-300"
-                  >
-                    <span className="flex items-center space-x-2">
-                      <span>⚙️</span>
-                      <span>Admin Panel</span>
-                    </span>
+                  <Link to="/admin" className="btn btn-primary">
+                    <span>⚙️</span>
+                    <span>Admin Panel</span>
                   </Link>
                 )}
                 
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500/90 backdrop-blur-sm text-white px-6 py-2.5 rounded-full font-medium hover:bg-red-600 hover:shadow-lg transition-all duration-300"
-                >
-                  <span className="flex items-center space-x-2">
-                    <span>🚪</span>
-                    <span>Logout</span>
-                  </span>
+                <button onClick={handleLogout} className="btn btn-danger">
+                  <span>🚪</span>
+                  <span>Logout</span>
                 </button>
-              </>
+              </div>
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="text-white font-medium hover:text-purple-200 transition-colors duration-300"
-                >
+              <div className="flex items-center gap-3">
+                <Link to="/login" className="btn btn-secondary">
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  className="btn-gradient text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg transition-all duration-300"
-                >
-                  <span>Register</span>
+                <Link to="/register" className="btn btn-primary">
+                  Register
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <button 
+            className="menu-toggle show-mobile"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden glass-dark p-2 rounded-lg text-white"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <span className="menu-icon">{isMenuOpen ? '✕' : '☰'}</span>
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 space-y-3 fade-in">
+          <div className="mobile-menu fade-in">
             {user ? (
               <>
-                <div className="glass-dark px-4 py-3 rounded-lg text-white">
+                <div className="user-badge glass mb-2">
                   👋 {user.name}
                 </div>
                 {isAdmin() && (
                   <Link
                     to="/admin"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block btn-gradient text-white px-4 py-3 rounded-lg font-medium text-center"
+                    className="btn btn-primary"
+                    style={{ width: '100%', marginBottom: '12px' }}
                   >
                     ⚙️ Admin Panel
                   </Link>
@@ -113,7 +88,8 @@ const Navbar = () => {
                     handleLogout();
                     setIsMenuOpen(false);
                   }}
-                  className="w-full bg-red-500/90 text-white px-4 py-3 rounded-lg font-medium"
+                  className="btn btn-danger"
+                  style={{ width: '100%' }}
                 >
                   🚪 Logout
                 </button>
@@ -123,14 +99,16 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block text-white px-4 py-3 rounded-lg hover:bg-white/10"
+                  className="btn btn-secondary"
+                  style={{ width: '100%', marginBottom: '12px' }}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block btn-gradient text-white px-4 py-3 rounded-lg font-medium text-center"
+                  className="btn btn-primary"
+                  style={{ width: '100%' }}
                 >
                   Register
                 </Link>
