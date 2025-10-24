@@ -1,75 +1,75 @@
 const Pagination = ({ currentPage, lastPage, onPageChange }) => {
-    const pages = [];
-    const maxVisible = 5;
-    
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    let endPage = Math.min(lastPage, startPage + maxVisible - 1);
-    
-    if (endPage - startPage + 1 < maxVisible) {
-      startPage = Math.max(1, endPage - maxVisible + 1);
-    }
-    
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
+  const pages = [];
+  const maxVisible = 5;
   
-    return (
-      <div className="flex justify-center items-center space-x-2 mt-8">
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-        >
-          Previous
-        </button>
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+  let endPage = Math.min(lastPage, startPage + maxVisible - 1);
   
-        {startPage > 1 && (
-          <>
-            <button
-              onClick={() => onPageChange(1)}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              1
-            </button>
-            {startPage > 2 && <span className="px-2">...</span>}
-          </>
-        )}
+  if (endPage - startPage + 1 < maxVisible) {
+    startPage = Math.max(1, endPage - maxVisible + 1);
+  }
   
-        {pages.map((page) => (
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return (
+    <div className="flex justify-center items-center space-x-2 mt-12">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="glass px-5 py-3 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all duration-300 font-medium"
+      >
+        ← Previous
+      </button>
+
+      {startPage > 1 && (
+        <>
           <button
-            key={page}
-            onClick={() => onPageChange(page)}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === page
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-300 hover:bg-gray-50'
-            }`}
+            onClick={() => onPageChange(1)}
+            className="glass px-5 py-3 text-white rounded-xl hover:shadow-lg transition-all duration-300"
           >
-            {page}
+            1
           </button>
-        ))}
-  
-        {endPage < lastPage && (
-          <>
-            {endPage < lastPage - 1 && <span className="px-2">...</span>}
-            <button
-              onClick={() => onPageChange(lastPage)}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              {lastPage}
-            </button>
-          </>
-        )}
-  
+          {startPage > 2 && <span className="text-white px-2">...</span>}
+        </>
+      )}
+
+      {pages.map((page) => (
         <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === lastPage}
-          className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={`px-5 py-3 rounded-xl font-medium transition-all duration-300 ${
+            currentPage === page
+              ? 'btn-gradient text-white shadow-lg scale-110'
+              : 'glass text-white hover:shadow-lg'
+          }`}
         >
-          Next
+          {page}
         </button>
-      </div>
-    );
-  };
-  
-  export default Pagination;
+      ))}
+
+      {endPage < lastPage && (
+        <>
+          {endPage < lastPage - 1 && <span className="text-white px-2">...</span>}
+          <button
+            onClick={() => onPageChange(lastPage)}
+            className="glass px-5 py-3 text-white rounded-xl hover:shadow-lg transition-all duration-300"
+          >
+            {lastPage}
+          </button>
+        </>
+      )}
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === lastPage}
+        className="glass px-5 py-3 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all duration-300 font-medium"
+      >
+        Next →
+      </button>
+    </div>
+  );
+};
+
+export default Pagination;
