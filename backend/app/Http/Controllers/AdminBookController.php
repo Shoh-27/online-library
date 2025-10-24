@@ -21,7 +21,7 @@ class AdminBookController extends Controller
             'pdf_file' => 'required|file|mimes:pdf|max:51200', // Max 50MB
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Max 5MB
             'pages' => 'nullable|integer|min:1',
-            'isbn' => 'nullable|string|max:20',
+            'isbn' => 'nullable|string|max:20|unique:books,isbn',
             'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
         ]);
 
@@ -32,14 +32,11 @@ class AdminBookController extends Controller
             ], 422);
         }
 
-        // Handle PDF upload
+        // Fayllarni yuklash
         $pdfPath = $request->file('pdf_file')->store('books/pdfs', 'public');
-
-        // Handle cover image upload
-        $coverPath = null;
-        if ($request->hasFile('cover_image')) {
-            $coverPath = $request->file('cover_image')->store('books/covers', 'public');
-        }
+        $coverPath = $request->hasFile('cover_image')
+            ? $request->file('cover_image')->store('books/covers', 'public')
+            : null;
 
         $book = Book::create([
             'title' => $request->title,
@@ -52,13 +49,14 @@ class AdminBookController extends Controller
             'published_year' => $request->published_year,
         ]);
 
-        $book->cover_image_url = $book->cover_image_url;
-        $book->pdf_file_url = $book->pdf_file_url;
-
         return response()->json([
             'success' => true,
             'message' => 'Book created successfully',
-            'data' => $book,
+            'data' => [
+                'book' => $book,
+                'pdf_url' => $book->pdf_file ? asset('storage/' . $book->pdf_file) : null,
+                'cover_url' => $book->cover_image ? asset('storage/' . $book->cover_image) : null,
+            ],
         ], 201);
     }
 
@@ -83,7 +81,7 @@ class AdminBookController extends Controller
             'pdf_file' => 'nullable|file|mimes:pdf|max:51200',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'pages' => 'nullable|integer|min:1',
-            'isbn' => 'nullable|string|max:20',
+            'isbn' => 'nullable|string|max:20|unique:books,isbn,' . $book->id,
             'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
         ]);
 
@@ -94,19 +92,17 @@ class AdminBookController extends Controller
             ], 422);
         }
 
-        // Handle PDF upload if new file provided
+        // PDF fayl yangilansa, eski faylni o‘chiramiz
         if ($request->hasFile('pdf_file')) {
-            // Delete old PDF
-            if ($book->pdf_file) {
+            if ($book->pdf_file && Storage::disk('public')->exists($book->pdf_file)) {
                 Storage::disk('public')->delete($book->pdf_file);
             }
             $book->pdf_file = $request->file('pdf_file')->store('books/pdfs', 'public');
         }
 
-        // Handle cover image upload if new file provided
+        // Cover fayl yangilansa, eski faylni o‘chiramiz
         if ($request->hasFile('cover_image')) {
-            // Delete old cover
-            if ($book->cover_image) {
+            if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
                 Storage::disk('public')->delete($book->cover_image);
             }
             $book->cover_image = $request->file('cover_image')->store('books/covers', 'public');
@@ -121,18 +117,19 @@ class AdminBookController extends Controller
             'published_year' => $request->published_year,
         ]);
 
-        $book->cover_image_url = $book->cover_image_url;
-        $book->pdf_file_url = $book->pdf_file_url;
-
         return response()->json([
             'success' => true,
             'message' => 'Book updated successfully',
-            'data' => $book,
+            'data' => [
+                'book' => $book,
+                'pdf_url' => $book->pdf_file ? asset('storage/' . $book->pdf_file) : null,
+                'cover_url' => $book->cover_image ? asset('storage/' . $book->cover_image) : null,
+            ],
         ]);
     }
 
     /**
-     * Delete book
+     * Delete a book
      */
     public function destroy($id)
     {
@@ -145,12 +142,11 @@ class AdminBookController extends Controller
             ], 404);
         }
 
-        // Delete files
-        if ($book->pdf_file) {
-            Storage::disk('public')->delete($book->pdf_file);
-        }
-        if ($book->cover_image) {
-            Storage::disk('public')->delete($book->cover_image);
+        // Fayllarni o‘chirish
+        foreach (['pdf_file', 'cover_image'] as $file) {
+            if ($book->$file && Storage::disk('public')->exists($book->$file)) {
+                Storage::disk('public')->delete($book->$file);
+            }
         }
 
         $book->delete();
