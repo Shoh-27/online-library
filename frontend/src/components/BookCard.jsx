@@ -2,39 +2,46 @@ import { Link } from 'react-router-dom';
 
 const BookCard = ({ book }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-      <div className="h-64 bg-gray-200 flex items-center justify-center">
+    <div className="glass rounded-2xl overflow-hidden card-hover fade-in">
+      <div className="relative h-72 bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center overflow-hidden group">
         {book.cover_image_url ? (
           <img
             src={book.cover_image_url}
             alt={book.title}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
         ) : (
-          <div className="text-gray-400 text-6xl">📖</div>
+          <div className="text-white text-8xl group-hover:scale-125 transition-transform duration-500">
+            📖
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {book.published_year && (
+          <div className="absolute top-4 right-4 badge">
+            {book.published_year}
+          </div>
         )}
       </div>
       
-      <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-800 mb-2 truncate">
+      <div className="p-5 bg-white/90 backdrop-blur-sm">
+        <h3 className="text-xl font-bold text-gray-800 mb-2 truncate hover:text-purple-600 transition-colors">
           {book.title}
         </h3>
-        <p className="text-gray-600 mb-2">by {book.author}</p>
-        <p className="text-gray-500 text-sm mb-4 line-clamp-2">
+        <p className="text-purple-600 font-medium mb-2 flex items-center">
+          <span className="mr-2">✍️</span>
+          {book.author}
+        </p>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
           {book.description}
         </p>
         
-        <div className="flex justify-between items-center">
-          {book.published_year && (
-            <span className="text-sm text-gray-500">{book.published_year}</span>
-          )}
-          <Link
-            to={`/books/${book.id}`}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
-          >
-            View Details
-          </Link>
-        </div>
+        <Link
+          to={`/books/${book.id}`}
+          className="block w-full btn-gradient text-white text-center py-3 rounded-xl font-medium hover:shadow-xl transition-all duration-300"
+        >
+          <span>View Details →</span>
+        </Link>
       </div>
     </div>
   );
