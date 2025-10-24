@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import BookDetails from './pages/BookDetails';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminBookForm from './pages/AdminBookForm';
+import AdminBookForm from './pages/AdminBookForm.jsx';
 
 function App() {
   return (
@@ -52,3 +52,6 @@ function App() {
     </AuthProvider>
   );
 }
+
+// ❗️SHU QATOR YETISHMAYAPTI
+export default App;
