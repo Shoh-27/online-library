@@ -41,5 +41,23 @@ class SubscriptionController extends Controller
     /**
      * Obunani bekor qilish
      */
+    public function cancel()
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'subscription_type' => 'free',
+            'subscription_expires_at' => null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Subscription cancelled successfully',
+        ]);
+    }
+
+    /**
+     * Obuna statusini ko'rish
+     */
 
 }
