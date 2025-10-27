@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class AdminBookController extends Controller
 {
-    /**
-     * Store a new book
-     */
     public function store(Request $request)
     {
         try {
@@ -20,11 +17,12 @@ class AdminBookController extends Controller
                 'title' => 'required|string|max:255',
                 'author' => 'required|string|max:255',
                 'description' => 'required|string',
-                'pdf_file' => 'required|file|mimes:pdf|max:51200', // Max 50MB
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Max 5MB
+                'pdf_file' => 'required|file|mimes:pdf|max:51200',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
                 'pages' => 'nullable|integer|min:1',
                 'isbn' => 'nullable|string|max:20',
                 'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
+                'is_premium' => 'nullable|boolean',
             ]);
 
             if ($validator->fails()) {
@@ -34,7 +32,6 @@ class AdminBookController extends Controller
                 ], 422);
             }
 
-            // Handle PDF upload
             if (!$request->hasFile('pdf_file')) {
                 return response()->json([
                     'success' => false,
@@ -44,7 +41,6 @@ class AdminBookController extends Controller
 
             $pdfPath = $request->file('pdf_file')->store('books/pdfs', 'public');
 
-            // Handle cover image upload
             $coverPath = null;
             if ($request->hasFile('cover_image')) {
                 $coverPath = $request->file('cover_image')->store('books/covers', 'public');
@@ -59,6 +55,7 @@ class AdminBookController extends Controller
                 'pages' => $request->pages ?? 0,
                 'isbn' => $request->isbn,
                 'published_year' => $request->published_year,
+                'is_premium' => $request->is_premium ?? false,
             ]);
 
             $book->cover_image_url = $book->cover_image_url;
@@ -79,9 +76,6 @@ class AdminBookController extends Controller
         }
     }
 
-    /**
-     * Update existing book
-     */
     public function update(Request $request, $id)
     {
         try {
@@ -103,6 +97,7 @@ class AdminBookController extends Controller
                 'pages' => 'nullable|integer|min:1',
                 'isbn' => 'nullable|string|max:20',
                 'published_year' => 'nullable|integer|min:1000|max:' . date('Y'),
+                'is_premium' => 'nullable|boolean',
             ]);
 
             if ($validator->fails()) {
@@ -112,18 +107,14 @@ class AdminBookController extends Controller
                 ], 422);
             }
 
-            // Handle PDF upload if new file provided
             if ($request->hasFile('pdf_file')) {
-                // Delete old PDF
                 if ($book->pdf_file && Storage::disk('public')->exists($book->pdf_file)) {
                     Storage::disk('public')->delete($book->pdf_file);
                 }
                 $book->pdf_file = $request->file('pdf_file')->store('books/pdfs', 'public');
             }
 
-            // Handle cover image upload if new file provided
             if ($request->hasFile('cover_image')) {
-                // Delete old cover
                 if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
                     Storage::disk('public')->delete($book->cover_image);
                 }
@@ -137,6 +128,7 @@ class AdminBookController extends Controller
                 'pages' => $request->pages ?? $book->pages,
                 'isbn' => $request->isbn,
                 'published_year' => $request->published_year,
+                'is_premium' => $request->is_premium ?? false,
             ]);
 
             $book->cover_image_url = $book->cover_image_url;
@@ -157,9 +149,6 @@ class AdminBookController extends Controller
         }
     }
 
-    /**
-     * Delete book
-     */
     public function destroy($id)
     {
         try {
@@ -172,7 +161,6 @@ class AdminBookController extends Controller
                 ], 404);
             }
 
-            // Delete files
             if ($book->pdf_file && Storage::disk('public')->exists($book->pdf_file)) {
                 Storage::disk('public')->delete($book->pdf_file);
             }
