@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { useAuth } from '../contexts/AuthContext';
+import './BookDetails.css';
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -45,9 +46,11 @@ const BookDetails = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      
+      showNotification('✅ Book downloaded successfully!', 'success');
     } catch (error) {
       console.error('Error downloading book:', error);
-      alert('Failed to download book');
+      showNotification('❌ Failed to download book', 'error');
     } finally {
       setDownloading(false);
     }
@@ -61,106 +64,145 @@ const BookDetails = () => {
     window.open(book.pdf_file_url, '_blank');
   };
 
+  const showNotification = (message, type) => {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
+      <div className="book-details-page">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p className="loading-text">Loading book details...</p>
+        </div>
       </div>
     );
   }
 
   if (!book) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Book not found</div>
+      <div className="book-details-page">
+        <div className="container">
+          <div className="empty-state glass">
+            <div className="empty-icon">📚</div>
+            <h2 className="empty-title">Book not found</h2>
+            <button onClick={() => navigate('/')} className="btn btn-primary">
+              ← Back to Library
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <button
-          onClick={() => navigate('/')}
-          className="mb-6 text-blue-600 hover:text-blue-700 flex items-center"
-        >
-          ← Back to Books
+    <div className="book-details-page">
+      <div className="container">
+        <button onClick={() => navigate('/')} className="back-btn glass">
+          <span>←</span>
+          <span>Back to Library</span>
         </button>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="md:flex">
+        <div className="book-details-card glass fade-in">
+          <div className="book-details-grid">
             {/* Book Cover */}
-            <div className="md:w-1/3 bg-gray-200 flex items-center justify-center p-8">
+            <div className="book-cover-section">
               {book.cover_image_url ? (
                 <img
                   src={book.cover_image_url}
                   alt={book.title}
-                  className="max-h-96 object-contain"
+                  className="book-detail-cover"
                 />
               ) : (
-                <div className="text-gray-400 text-9xl">📖</div>
+                <div className="book-cover-placeholder-large">
+                  <span className="book-icon-large">📖</span>
+                </div>
               )}
             </div>
 
-            {/* Book Details */}
-            <div className="md:w-2/3 p-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                {book.title}
-              </h1>
-              
-              <div className="space-y-3 mb-6">
-                <p className="text-xl text-gray-700">
-                  <span className="font-semibold">Author:</span> {book.author}
-                </p>
-                
+            {/* Book Info */}
+            <div className="book-info-section">
+              <div className="book-meta">
                 {book.published_year && (
-                  <p className="text-gray-600">
-                    <span className="font-semibold">Published:</span> {book.published_year}
-                  </p>
+                  <span className="badge">📅 {book.published_year}</span>
                 )}
-                
+                <h1 className="book-detail-title">{book.title}</h1>
+              </div>
+              
+              <div className="book-author-info">
+                <span className="author-icon-large">✍️</span>
+                <div>
+                  <p className="author-label">Author</p>
+                  <p className="author-name">{book.author}</p>
+                </div>
+              </div>
+              
+              <div className="book-stats-grid">
                 {book.pages > 0 && (
-                  <p className="text-gray-600">
-                    <span className="font-semibold">Pages:</span> {book.pages}
-                  </p>
+                  <div className="stat-card glass">
+                    <p className="stat-label">Pages</p>
+                    <p className="stat-value">{book.pages}</p>
+                  </div>
                 )}
                 
                 {book.isbn && (
-                  <p className="text-gray-600">
-                    <span className="font-semibold">ISBN:</span> {book.isbn}
-                  </p>
+                  <div className="stat-card glass">
+                    <p className="stat-label">ISBN</p>
+                    <p className="stat-value-small">{book.isbn}</p>
+                  </div>
                 )}
               </div>
 
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Description</h2>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                  {book.description}
-                </p>
+              <div className="book-description-section">
+                <h2 className="section-title">
+                  <span>📝</span>
+                  <span>Description</span>
+                </h2>
+                <div className="description-box glass">
+                  <p className="description-text">{book.description}</p>
+                </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={handleReadOnline}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
-                >
-                  📖 Read Online
+              <div className="action-buttons">
+                <button onClick={handleReadOnline} className="btn btn-success btn-large">
+                  <span>📖</span>
+                  <span>Read Online</span>
                 </button>
                 
                 <button
                   onClick={handleDownload}
                   disabled={downloading}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+                  className="btn btn-primary btn-large"
                 >
-                  {downloading ? 'Downloading...' : '⬇ Download PDF'}
+                  {downloading ? (
+                    <>
+                      <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '3px' }}></div>
+                      <span>Downloading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>⬇️</span>
+                      <span>Download PDF</span>
+                    </>
+                  )}
                 </button>
               </div>
 
               {!user && (
-                <p className="mt-4 text-sm text-gray-600">
-                  Please <span className="text-blue-600 cursor-pointer" onClick={() => navigate('/login')}>login</span> to read or download this book
-                </p>
+                <div className="login-prompt glass">
+                  <p>
+                    Please{' '}
+                    <button onClick={() => navigate('/login')} className="login-link">
+                      login
+                    </button>
+                    {' '}to read or download this book
+                  </p>
+                </div>
               )}
             </div>
           </div>
