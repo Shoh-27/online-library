@@ -1,3 +1,5 @@
+import './Pagination.css';
+
 const Pagination = ({ currentPage, lastPage, onPageChange }) => {
   const pages = [];
   const maxVisible = 5;
@@ -14,11 +16,11 @@ const Pagination = ({ currentPage, lastPage, onPageChange }) => {
   }
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-12">
+    <div className="pagination">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="glass px-5 py-3 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all duration-300 font-medium"
+        className="pagination-btn"
       >
         ← Previous
       </button>
@@ -27,11 +29,11 @@ const Pagination = ({ currentPage, lastPage, onPageChange }) => {
         <>
           <button
             onClick={() => onPageChange(1)}
-            className="glass px-5 py-3 text-white rounded-xl hover:shadow-lg transition-all duration-300"
+            className="pagination-btn"
           >
             1
           </button>
-          {startPage > 2 && <span className="text-white px-2">...</span>}
+          {startPage > 2 && <span className="pagination-dots">...</span>}
         </>
       )}
 
@@ -39,11 +41,7 @@ const Pagination = ({ currentPage, lastPage, onPageChange }) => {
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-5 py-3 rounded-xl font-medium transition-all duration-300 ${
-            currentPage === page
-              ? 'btn-gradient text-white shadow-lg scale-110'
-              : 'glass text-white hover:shadow-lg'
-          }`}
+          className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
         >
           {page}
         </button>
@@ -51,10 +49,10 @@ const Pagination = ({ currentPage, lastPage, onPageChange }) => {
 
       {endPage < lastPage && (
         <>
-          {endPage < lastPage - 1 && <span className="text-white px-2">...</span>}
+          {endPage < lastPage - 1 && <span className="pagination-dots">...</span>}
           <button
             onClick={() => onPageChange(lastPage)}
-            className="glass px-5 py-3 text-white rounded-xl hover:shadow-lg transition-all duration-300"
+            className="pagination-btn"
           >
             {lastPage}
           </button>
@@ -64,7 +62,7 @@ const Pagination = ({ currentPage, lastPage, onPageChange }) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === lastPage}
-        className="glass px-5 py-3 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all duration-300 font-medium"
+        className="pagination-btn"
       >
         Next →
       </button>
