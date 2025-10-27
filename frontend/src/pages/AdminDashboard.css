@@ -1,0 +1,245 @@
+.admin-page {
+    min-height: 100vh;
+    padding: 48px 0;
+  }
+  
+  .admin-header {
+    margin-bottom: 32px;
+  }
+  
+  .admin-header-card {
+    padding: 40px;
+    border-radius: 24px;
+  }
+  
+  .admin-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  
+  .admin-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .admin-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+  }
+  
+  .btn-add {
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .stat-card {
+    padding: 32px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-neon);
+  }
+  
+  .stat-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .stat-card-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .stat-card-value {
+    font-size: 40px;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .stat-card-icon {
+    font-size: 56px;
+    opacity: 0.6;
+  }
+  
+  /* Books Table */
+  .books-table-container {
+    border-radius: 24px;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .table thead {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table th {
+    padding: 20px 24px;
+    text-align: left;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--neon-blue);
+    border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+  }
+  
+  .table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+  
+  .table tbody tr {
+    transition: all 0.3s ease;
+  }
+  
+  .table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  
+  .book-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .book-thumbnail-wrapper {
+    flex-shrink: 0;
+  }
+  
+  .book-thumbnail {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .book-thumbnail-placeholder {
+    width: 60px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #00d4ff, #b44aff);
+    border-radius: 8px;
+    font-size: 32px;
+  }
+  
+  .book-title-cell {
+    font-weight: 700;
+    color: white;
+  }
+  
+  .author-cell,
+  .year-cell,
+  .pages-cell {
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  
+  .action-buttons-cell {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .action-link {
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .edit-link {
+    color: #60a5fa;
+  }
+  
+  .edit-link:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+  }
+  
+  .delete-link {
+    color: #f87171;
+  }
+  
+  .delete-link:hover {
+    color: #fca5a5;
+    text-decoration: underline;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .admin-header-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .admin-title {
+      font-size: 32px;
+    }
+    
+    .btn-add {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .table-wrapper {
+      overflow-x: scroll;
+    }
+    
+    .table {
+      min-width: 700px;
+    }
+  }
