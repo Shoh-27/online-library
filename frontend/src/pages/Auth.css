@@ -1,0 +1,122 @@
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  
+  .auth-container {
+    max-width: 480px;
+    width: 100%;
+  }
+  
+  .auth-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .auth-icon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  
+  .auth-title {
+    font-size: 40px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 12px;
+  }
+  
+  .auth-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+  
+  .demo-info {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: white;
+  }
+  
+  .demo-info strong {
+    color: var(--neon-blue);
+  }
+  
+  .auth-form {
+    padding: 40px;
+    border-radius: 24px;
+  }
+  
+  .alert {
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+  }
+  
+  .alert-error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fecaca;
+  }
+  
+  .form-error {
+    color: #fca5a5;
+    font-size: 13px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .btn-full {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: var(--text-secondary);
+  }
+  
+  .auth-footer p {
+    margin-bottom: 8px;
+  }
+  
+  .auth-link {
+    color: var(--neon-blue);
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .auth-link:hover {
+    color: var(--neon-purple);
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .auth-icon {
+      font-size: 60px;
+    }
+    
+    .auth-title {
+      font-size: 32px;
+    }
+    
+    .auth-form {
+      padding: 32px 24px;
+    }
+  }
