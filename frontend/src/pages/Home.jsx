@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from '../api/axios';
 import BookCard from '../components/BookCard';
 import Pagination from '../components/Pagination';
+import './Home.css';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -13,7 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, [currentPage, search]);
+  }, [currentPage]);
 
   const fetchBooks = async () => {
     try {
@@ -44,62 +45,65 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Welcome to Online Library
+    <div className="home-page">
+      <div className="container">
+        {/* Hero Section */}
+        <div className="hero-section fade-in">
+          <div className="hero-icon float">📚</div>
+          <h1 className="hero-title">
+            Welcome to
+            <span className="text-gradient"> Online Library</span>
           </h1>
-          <p className="text-gray-600">
-            Discover, read, and download thousands of books
+          <p className="hero-subtitle">
+            Discover, read, and download thousands of books from our collection
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-8">
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by title, author, or description..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-              >
-                Search
-              </button>
-            </div>
+        <div className="search-section scale-in">
+          <form onSubmit={handleSearch} className="search-form glass">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="🔍 Search by title, author, or description..."
+              className="search-input"
+            />
+            <button type="submit" className="btn btn-primary">
+              Search
+            </button>
           </form>
         </div>
 
-        {/* Results count */}
+        {/* Results Count */}
         {!loading && (
-          <div className="mb-4 text-gray-600">
-            Found {total} book{total !== 1 ? 's' : ''}
+          <div className="results-count">
+            <div className="badge">
+              📚 Found {total} book{total !== 1 ? 's' : ''}
+            </div>
           </div>
         )}
 
         {/* Loading State */}
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-xl text-gray-600">Loading books...</div>
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p className="loading-text">Loading amazing books...</p>
           </div>
         ) : books.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-xl text-gray-600">No books found</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search</p>
+          <div className="empty-state glass">
+            <div className="empty-icon">📭</div>
+            <h2 className="empty-title">No books found</h2>
+            <p className="empty-text">Try adjusting your search criteria</p>
           </div>
         ) : (
           <>
             {/* Books Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map((book) => (
-                <BookCard key={book.id} book={book} />
+            <div className="books-grid">
+              {books.map((book, index) => (
+                <div key={book.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                  <BookCard book={book} />
+                </div>
               ))}
             </div>
 
