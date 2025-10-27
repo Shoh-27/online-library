@@ -59,6 +59,18 @@ class SubscriptionController extends Controller
     /**
      * Obuna statusini ko'rish
      */
+    public function status()
+    {
+        $user = auth()->user();
 
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'subscription_type' => $user->subscription_type,
+                'is_premium' => $user->isPremium(),
+                'expires_at' => $user->subscription_expires_at,
+            ],
+        ]);
+    }
 
 }
