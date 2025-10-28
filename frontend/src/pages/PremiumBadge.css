@@ -1,0 +1,41 @@
+.premium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 20px;
+    font-weight: 700;
+    color: #1a1347;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+    animation: glow 2s ease-in-out infinite;
+  }
+  
+  .premium-badge.small {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
+  .premium-badge.medium {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+  
+  .premium-badge.large {
+    font-size: 15px;
+    padding: 8px 18px;
+  }
+  
+  .premium-icon {
+    font-size: 1.2em;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+    }
+    50% {
+      box-shadow: 0 4px 25px rgba(251, 191, 36, 0.7);
+    }
+  }
