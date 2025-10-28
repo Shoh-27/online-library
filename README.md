@@ -9,7 +9,6 @@ Online kutubxona — Laravel backend va React frontend bilan qurilgan to'liq web
 - **Kitobning Batafsil Ma'lumotlari** - rasm, sharh, reyting, ijara narxi
 - **Admin Paneli** - kitoblarni qo'shish, tahrirlash, o'chirish
 - **Ijara Tizimi** - kitoblarni ijara olish, qaytarish, to'lovni amalga oshirish
-- **Reyting va Sharhlar** - foydalanuvchilar sharhlar qoldirishlari
 
 ## 💻 Texnologiyalar
 
@@ -73,36 +72,6 @@ npm install
 
 # Dasturni ishga tushirish
 npm start
-```
-
-## 📁 Loyja Strukturasi
-
-```
-library-backend/
-├── app/
-│   ├── Models/
-│   │   ├── Book.php
-│   │   ├── User.php
-│   │   ├── Order.php
-│   │   └── Review.php
-│   ├── Http/Controllers/
-│   │   ├── BookController.php
-│   │   ├── OrderController.php
-│   │   └── AdminController.php
-│   └── Routes/
-│       └── api.php
-
-library-frontend/
-├── src/
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── BookList.jsx
-│   │   ├── BookDetails.jsx
-│   │   ├── AdminDashboard.jsx
-│   │   └── AdminBookForm.jsx
-│   ├── components/
-│   ├── styles/
-│   └── App.jsx
 ```
 
 ## 🔑 API Endpoints
