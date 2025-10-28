@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     
@@ -73,9 +72,28 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAdmin = () => user?.role === 'admin';
+  
+  const isPremium = () => {
+    if (!user) return false;
+    return user.subscription_type === 'premium' || user.role === 'admin';
+  };
+
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isAdmin, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      register, 
+      logout, 
+      isAdmin, 
+      isPremium,
+      updateUser,
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   );
